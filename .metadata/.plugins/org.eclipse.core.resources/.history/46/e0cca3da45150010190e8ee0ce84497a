@@ -1,0 +1,134 @@
+package intervue.test;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
+
+import intervue.utils.ScreenShotUtil;
+
+public class Login {
+
+	WebDriver driver;
+	WebDriverWait wait;
+	ScreenShotUtil scrnShot;
+
+	@BeforeSuite
+	public void driver() {
+		driver = new ChromeDriver();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		driver.get("https://www.intervue.io/");
+		scrnShot=new ScreenShotUtil(driver);
+	}
+
+	@Test
+	public void homepageLogin() {
+		WebElement homeLoginButton=driver.findElement(By.xpath("//a[@href='/access-account']"));
+
+		System.out.println(driver.getCurrentUrl());
+		homeLoginButton.click();
+
+	}
+
+	@Test(dependsOnMethods = "homepageLogin")
+	public void companyLogin() {
+
+		Set<String> tabs =driver.getWindowHandles();
+		List<String> tab = new ArrayList<String>(tabs);
+		if(tab.size()>1) {
+			driver.switchTo().window(tab.get(1));
+		}else System.out.println("No new tab found");
+		System.out.println(driver.getCurrentUrl());
+		WebElement companyLoginButton = driver.findElement(By.xpath("//a[@href='/login']"));
+		WebElement companyLoginWait=wait.until(ExpectedConditions.elementToBeClickable(companyLoginButton));
+		companyLoginWait.click();
+	}
+	@Test(dependsOnMethods = "companyLogin")
+	public void loginCredtials() {
+		WebElement usernameField = driver.findElement(By.id("login_email"));
+		WebElement passwordField = driver.findElement(By.id("login_password"));
+		WebElement LoginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+
+		usernameField.sendKeys("neha@intervue.io");
+		passwordField.sendKeys("Ps@neha@1233");
+		LoginButton.click();
+		
+		 
+		try {
+			WebElement error =driver.findElement(By.xpath("//span[@class='ant-alert-message']"));
+			
+				System.out.println("Login Failed");
+				scrnShot.take();	
+		 
+		} catch (NoSuchElementException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Login Success");
+		}
+		
+
+	}
+
+	@Test(dependsOnMethods = "loginCredtials")
+	public void search() {
+		wait.until(ExpectedConditions.urlContains("/profile/dashboard"));
+		System.out.println(driver.getCurrentUrl());
+		WebElement body = driver.findElement(By.tagName("body"));
+		body.click();
+		Actions actions = new Actions(driver);
+		actions.keyDown(Keys.CONTROL).sendKeys("k").keyUp(Keys.CONTROL).build().perform();
+		WebElement searchPopup = driver.findElement(By.xpath("/html[1]/body[1]/div[9]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/input[1]"));
+		wait.until(ExpectedConditions.visibilityOf(searchPopup));
+		if(searchPopup.isDisplayed()) {
+			searchPopup.sendKeys("Ajai");
+		}else System.out.println("No popup displayed");
+
+		WebElement searchDrop = driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div/div[2]/div/div[2]/div"));
+
+
+
+		searchDrop.click();
+	}
+
+	@Test(dependsOnMethods ="search")
+	public void logout() {
+		WebElement profileIcon = driver.findElement(By.xpath("//div[@class='ProfileHeader__UsernameWrap-sc-1gwp6c1-2 jRhmUi']"));
+		wait.until(ExpectedConditions.elementToBeClickable(profileIcon));
+		profileIcon.click();
+		WebElement LogoutButton = driver.findElement(By.xpath("//a[@href='/logout']"));
+		LogoutButton.click();
+	}
+
+
+//			@AfterSuite
+//			public void tearDown() {
+//				try {
+//					Thread.sleep(3000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				if(driver!=null) {
+//					driver.quit();
+//				}
+//			}
+			
+
+
+
+}
