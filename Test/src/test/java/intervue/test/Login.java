@@ -77,8 +77,8 @@ public class Login {
 				scrnShot.take();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Login Succesful");
+			
 		}
 
 
@@ -116,19 +116,19 @@ public class Login {
 	}
 
 
-	@AfterSuite
-	public void tearDown() {
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(driver!=null) {
-			driver.quit();
-		}
-	}
-
+//	@AfterSuite
+//	public void tearDown() {
+//		try {
+//			Thread.sleep(3000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		if(driver!=null) {
+//			driver.quit();
+//		}
+//	}
+//
 
 
 

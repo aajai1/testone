@@ -18,7 +18,7 @@ public class ScreenShotUtil {
 	public void take() {
 		TakesScreenshot scrn = (TakesScreenshot)driver;
 		File file =scrn.getScreenshotAs(OutputType.FILE);
-		String path ="C:\\Users\\acer\\Pictures\\Failed Cases\\"+"Login"+".png";
+		String path ="C:\\Users\\acer\\Pictures\\Failed Cases\\"+"Login"+System.currentTimeMillis()+".png";
 		
 		try {
 			FileUtils.copyFile(file, new File(path));
