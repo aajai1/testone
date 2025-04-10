@@ -61,7 +61,7 @@
     <version>3.0.0-M9</version> <!-- This version exists -->
     <configuration>
         <suiteXmlFiles>
-            <suiteXmlFile>testng.xml</suiteXmlFile>
+            <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
         </suiteXmlFiles>
     </configuration>
 </plugin>
