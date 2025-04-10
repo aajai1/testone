@@ -10,16 +10,15 @@
 
 <build>
     <plugins>
-       <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-compiler-plugin</artifactId>
-    <version>3.10.1</version> <!-- Use this instead of 3.9.9 -->
-    <configuration>
-        <source>21</source>
-        <target>21</target>
-    </configuration>
-</plugin>
-
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.9.9</version> <!-- Upgrade from 3.1 to 3.10.1 -->
+            <configuration>
+                <source>21</source>
+                <target>21</target>
+            </configuration>
+        </plugin>
        
     </plugins>
     <pluginManagement>
@@ -55,17 +54,6 @@
     				</lifecycleMappingMetadata>
     			</configuration>
     		</plugin>
-    		<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>3.0.0-M9</version> <!-- This version exists -->
-    <configuration>
-        <suiteXmlFiles>
-            <suiteXmlFile>testng.xml</suiteXmlFile>
-        </suiteXmlFiles>
-    </configuration>
-</plugin>
-
     	</plugins>
     </pluginManagement>
 </build>
